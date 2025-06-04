@@ -1,0 +1,9 @@
+<div class="container mt-4">
+  <h2 class="mb-4">Follow Users</h2>
+
+  <% if @users.any? %>
+    <%= render 'index', users: @users %>
+  <% else %>
+    <p>ユーザーはいません</p>
+  <% end %>
+</div>
