@@ -9,12 +9,34 @@
     <%= stylesheet_pack_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
     <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
   </head>
-  <body>https://sora.chatgpt.com/?utm_source=chatgpt
+
+  <body>
     <%= render 'layouts/header' %>
-      <main>
-        <p id="notice"><%= notice %></p>
-        <%= yield %>
-      </main>
+
+    <main>
+      <p id="notice"><%= notice %></p>
+
+      <% if user_signed_in? %>
+      <div class="container mt-3 mb-3">
+        <%= form_with url: search_path, method: :get, local: true do %>
+          <div class="d-flex justify-content-center align-items-center">
+            <%= text_field_tag :keyword, params[:keyword], placeholder: "検索ワードを入力", class: "form-control w-25 me-2" %>
+            <%= select_tag :range, options_for_select([["User", "User"], ["Book", "Book"]], params[:range]), class: "form-select me-2" %>
+            <%= select_tag :match, options_for_select([
+              ["完全一致", "perfect"],
+              ["前方一致", "forward"],
+              ["後方一致", "backward"],
+              ["部分一致", "partial"]
+            ], params[:match]), class: "form-select me-2" %>
+            <%= submit_tag "検索", class: "btn btn-outline-dark" %>
+          </div>
+        <% end %>
+      </div>
+    <% end %>    
+
+      <%= yield %>
+    </main>
+
     <%= render 'layouts/footer' %>
   </body>
 </html>
