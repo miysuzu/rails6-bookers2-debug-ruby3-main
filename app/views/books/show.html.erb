@@ -28,10 +28,10 @@
           </td>
 
           <!-- いいね＋コメント数 -->
-          <td class="text-center favorite-btn">
-          <%= render 'favorites/favorite_btn', book: @book %>
-          <div class="fs-6">コメント数: <%= @book_comments.count %></div>
-          </td>        
+          <td id="book_<%= @book.id %>" class="text-center favorite-btn">
+            <%= render 'favorites/favorite_btn', book: @book %>
+            <div class="fs-6 comments-count">コメント数: <%= @book_comments.count %></div>
+          </td>
 
           <!-- 編集・削除 -->
           <% if current_user == @book.user %>
@@ -45,22 +45,13 @@
         </tr>
       </table>
 
-      <!-- コメント一覧（超シンプルな行表示） -->
-      <% @book_comments.each do |comment| %>
-        <div class="d-flex align-items-center mb-2">
-          <%= image_tag comment.user.get_profile_image, size: "40x40", class: "me-2" %>
-          <div>
-            <%= link_to comment.user.name, user_path(comment.user), class: "me-2" %>
-            <%= comment.comment %>
-            <% if comment.user == current_user %>
-              <%= link_to "Destroy", book_book_comment_path(@book, comment), method: :delete, data: { confirm: "本当に削除しますか？" }, class: "btn btn-sm btn-danger ms-2" %>
-            <% end %>
-          </div>
-        </div>
-      <% end %>
+      <!-- コメント一覧 -->
+      <div class="book_comments">
+        <%= render 'book_comments/index', book: @book %>
+      </div>
 
       <!-- コメント投稿フォーム -->
-      <%= form_with model: [@book, @book_comment], local: true do |f| %>
+      <%= form_with model: [@book, @book_comment], local: false do |f| %>
         <div class="mb-2">
           <%= f.text_area :comment, class: "form-control", rows: 3, placeholder: "コメントを入力" %>
         </div>

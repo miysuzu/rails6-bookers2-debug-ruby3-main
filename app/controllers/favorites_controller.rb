@@ -6,7 +6,10 @@ class FavoritesController < ApplicationController
     favorite = current_user.favorites.new(book_id: @book.id)
     favorite.save
 
-    render 'create.js.erb', layout: false
+    respond_to do |format|
+      format.js { render :create, content_type: 'application/javascript' }
+      format.html { head :ok }
+    end
   end
 
   def destroy
@@ -14,6 +17,9 @@ class FavoritesController < ApplicationController
     favorite = current_user.favorites.find_by(book_id: @book.id)
     favorite.destroy if favorite
 
-    render 'destroy.js.erb', layout: false
+    respond_to do |format|
+      format.js { render :destroy, content_type: 'application/javascript' }
+      format.html { head :ok }
+    end
   end
 end
