@@ -1,0 +1,15 @@
+<% if @book.favorited_by?(current_user) %>
+  <%= form_with url: book_favorite_path(@book), method: :delete, local: false do %>
+    <button type="submit" class="btn text-danger fs-3" style="text-decoration: none;">
+      <i class="fas fa-heart"></i>
+    </button>
+  <% end %>
+<% else %>
+  <%= form_with url: book_favorite_path(@book), method: :post, local: false do %>
+    <button type="submit" class="btn text-primary fs-3" style="text-decoration: none;">
+      <i class="far fa-heart"></i>
+    </button>
+  <% end %>
+<% end %>
+
+<div class="fs-6"><%= @book.favorites.count %> いいね</div>

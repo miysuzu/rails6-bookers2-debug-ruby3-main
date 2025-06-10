@@ -28,19 +28,10 @@
           </td>
 
           <!-- いいね＋コメント数 -->
-          <td class="text-center">
-            <% if @book.favorited_by?(current_user) %>
-              <%= link_to book_favorite_path(@book), method: :delete, class: "text-danger fs-3", style: "text-decoration: none;" do %>
-                <i class="fas fa-heart"></i>
-              <% end %>
-            <% else %>
-              <%= link_to book_favorite_path(@book), method: :post, class: "text-primary fs-3", style: "text-decoration: none;" do %>
-                <i class="far fa-heart"></i>
-              <% end %>
-            <% end %>
-            <div class="fs-6"><%= @book.favorites.count %> いいね</div>
-            <div class="fs-6">コメント数: <%= @book_comments.count %></div>
-          </td>
+          <td class="text-center favorite-btn">
+          <%= render 'favorites/favorite_btn', book: @book %>
+          <div class="fs-6">コメント数: <%= @book_comments.count %></div>
+          </td>        
 
           <!-- 編集・削除 -->
           <% if current_user == @book.user %>
